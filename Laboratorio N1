@@ -1,0 +1,89 @@
+int greenLightPin = 11;
+int redLightPin = 12;
+int yellowLightPin = 13;
+
+void setup() {
+  pinMode(greenLightPin, OUTPUT);
+  pinMode(redLightPin, OUTPUT);
+  pinMode(yellowLightPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+   int option = Serial.read() - '0';
+
+    switch (option) {
+      case 1:
+        turnOnLight(greenLightPin);
+        break;
+      case 2:
+        turnOffLight(greenLightPin);
+        break;
+      case 3:
+        turnOnLight(redLightPin);
+        break;
+      case 4:
+        turnOffLight(redLightPin);
+        break;
+      case 5:
+        turnOnLight(yellowLightPin);
+        break;
+      case 6:
+        turnOffLight(yellowLightPin);
+        break;
+      case 7:
+        turnOnAllLights();
+        break;
+      case 8:
+        turnOffAllLights();
+        break;
+      case 9:
+        blinkAllLights();
+        break;
+      default:
+        Serial.println("Ingrese un numero entero");
+        break;
+    }
+  }
+}
+
+void turnOnLight(int led) {
+  digitalWrite(led, HIGH);
+  Serial.print("Encendiendo Led");
+  Serial.println(led);
+}
+
+void turnOffLight(int led) {
+  digitalWrite(led, LOW);
+  Serial.print("Apagando Led ");
+  Serial.println(led);
+}
+
+void turnOnAllLights() {
+  digitalWrite(greenLightPin, HIGH);
+  digitalWrite(redLightPin, HIGH);
+  digitalWrite(yellowLightPin, HIGH);
+  Serial.println("Todas las luces encendidas.");
+}
+
+void turnOffAllLights() {
+  digitalWrite(greenLightPin, LOW);
+  digitalWrite(redLightPin, LOW);
+  digitalWrite(yellowLightPin, LOW);
+  Serial.println("Todas las luces apagadas.");
+}
+
+void blinkAllLights() {
+  for (int i = 0; i < 10; i++) { 
+    digitalWrite(greenLightPin, HIGH);
+    digitalWrite(redLightPin, HIGH);
+    digitalWrite(yellowLightPin, HIGH);
+    delay(1000);
+    digitalWrite(greenLightPin, LOW);
+    digitalWrite(redLightPin, LOW);
+    digitalWrite(yellowLightPin, LOW);
+    delay(1000);
+  }
+  Serial.println("Modo intermitente activado.");
+}
